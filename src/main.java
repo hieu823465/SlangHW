@@ -1,3 +1,4 @@
+import java.awt.image.Kernel;
 import java.io.*;
 import java.util.*;
 
@@ -9,6 +10,7 @@ import java.util.*;
  */
 public class main {
     public static HashMap<String,String> slangword = new HashMap<>();
+    // tính năng 3
     public static ArrayList<String> history = new ArrayList<>();
 
     public static void ReadFile(){
@@ -72,15 +74,119 @@ public class main {
 
     }
 
+    // tính năng 5
+    public static void EditSlang(String slang, String value) {
+        String check = "";
+        check = slangword.get(slang);
+        if(!Objects.equals(check,"")) {
+            slangword.put(slang,value);
+        }
+        else {
+            System.out.println("not found slang word");
+        }
+    }
+
+    // tính năng 6
+    public static void DeleteSlang(String slang){
+        String check = "";
+        check = slangword.get(slang);
+        if(!Objects.equals(check,"")) {
+            slangword.remove(slang);
+        }
+        else {
+            System.out.println("no slang word~~~!!!");
+        }
+    }
+
+    // tính năng 7
+    public static void ResetSlang() {
+        ReadFile();
+    }
+
+    // tính năng 8
+    public static void RandomSlang() {
+        List<String> keyList = new ArrayList<>(slangword.keySet());
+
+        int random = new Random().nextInt(keyList.size());
+
+        String random_key = keyList.get(random);
+        String random_value = slangword.get(random_key);
+
+        System.out.println("key: " + random_key + ", value: " + random_value);
+
+    }
+
+    // tính năng 9
+    public static void Quiz_slang() {
+        List<String> keyList = new ArrayList<>(slangword.keySet());
+
+        int random = new Random().nextInt(keyList.size());
+
+        String random_key = keyList.get(random);
+        String random_value = slangword.get(random_key);
+
+        System.out.println("Key: " + random_key);
+
+        // random các đáp án khác
+        random = new Random().nextInt(keyList.size());
+        String option1 = slangword.get(keyList.get(random));
+
+        random = new Random().nextInt(keyList.size());
+        String option2 = slangword.get(keyList.get(random));
+
+        random = new Random().nextInt(keyList.size());
+        String option3 = slangword.get(keyList.get(random));
+
+        random = new Random().nextInt(4);
+        switch (random){
+            case 0 -> {
+                // answer a
+                System.out.println(option1);
+                System.out.println(random_value);
+                System.out.println(option2);
+                System.out.println(option3);
+                break;
+            }
+            case 1 -> {
+                // answer b
+                System.out.println(option1);
+                System.out.println(random_value);
+                System.out.println(option2);
+                System.out.println(option3);
+                break;
+            }
+            case 2 -> {
+                // answer c
+                System.out.println(option1);
+                System.out.println(option2);
+                System.out.println(random_value);
+                System.out.println(option3);
+                break;
+            }
+            case 3 -> {
+                // answer d
+                System.out.println(option1);
+                System.out.println(option2);
+                System.out.println(option3);
+                System.out.println(random_value);
+                break;
+            }
+        }
+    }
+
+
+
     public static void main(String[] argv){
         ReadFile();
 
-        long start = System.currentTimeMillis();
-        AddSlang("$","tien viet");
-        long elapsedTimeMillis = System.currentTimeMillis()-start;
-        System.out.println(elapsedTimeMillis + " ms");
+//        long start = System.currentTimeMillis();
+//        AddSlang("$","tien viet");
+//        long elapsedTimeMillis = System.currentTimeMillis()-start;
+//        System.out.println(elapsedTimeMillis + " ms");
+//
+//        System.out.println(SearchDefinition("$"));
 
-        System.out.println(SearchDefinition("$"));
+        Quiz_slang();
 
     }
 
