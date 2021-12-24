@@ -8,7 +8,7 @@ import java.util.*;
  * Date 23/12/2021 - 16:39
  * Description: ...
  */
-public class main {
+public class Slang {
     public static HashMap<String,String> slangword = new HashMap<>();
     // tính năng 3
     public static ArrayList<String> history = new ArrayList<>();
@@ -230,20 +230,6 @@ public class main {
                 break;
             }
         }
-    }
-
-
-    public static void main(String[] argv){
-        ReadFile();
-
-//        long start = System.currentTimeMillis();
-//        AddSlang("$","tien viet");
-//        long elapsedTimeMillis = System.currentTimeMillis()-start;
-//        System.out.println(elapsedTimeMillis + " ms");
-//
-//        System.out.println(SearchDefinition("$"));
-
-
     }
 
 }
