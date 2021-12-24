@@ -174,6 +174,63 @@ public class main {
         }
     }
 
+    // tính năng 10
+    public static void Quiz_Defi() {
+        List<String> keyList = new ArrayList<>(slangword.keySet());
+
+        int random = new Random().nextInt(keyList.size());
+
+        String random_key = keyList.get(random);
+        String random_value = slangword.get(random_key);
+
+        System.out.println("Definition: " + random_value);
+
+        // random các đáp án khác
+        random = new Random().nextInt(keyList.size());
+        String option1 = keyList.get(random);
+
+        random = new Random().nextInt(keyList.size());
+        String option2 = keyList.get(random);
+
+        random = new Random().nextInt(keyList.size());
+        String option3 = keyList.get(random);
+
+        random = new Random().nextInt(4);
+        switch (random){
+            case 0 -> {
+                // answer a
+                System.out.println(option1);
+                System.out.println(random_key);
+                System.out.println(option2);
+                System.out.println(option3);
+                break;
+            }
+            case 1 -> {
+                // answer b
+                System.out.println(option1);
+                System.out.println(random_key);
+                System.out.println(option2);
+                System.out.println(option3);
+                break;
+            }
+            case 2 -> {
+                // answer c
+                System.out.println(option1);
+                System.out.println(option2);
+                System.out.println(random_key);
+                System.out.println(option3);
+                break;
+            }
+            case 3 -> {
+                // answer d
+                System.out.println(option1);
+                System.out.println(option2);
+                System.out.println(option3);
+                System.out.println(random_key);
+                break;
+            }
+        }
+    }
 
 
     public static void main(String[] argv){
@@ -186,7 +243,6 @@ public class main {
 //
 //        System.out.println(SearchDefinition("$"));
 
-        Quiz_slang();
 
     }
 
