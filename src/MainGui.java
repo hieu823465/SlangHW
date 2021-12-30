@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
  * Description: ...
  */
 public class MainGui {
-    private static JFrame mainFrame;
+    public static JFrame mainFrame;
     public static void CreateAndShowGUI() {
         JFrame.setDefaultLookAndFeelDecorated(true);
         mainFrame = new JFrame("Slang Word!!!");
@@ -26,7 +26,7 @@ public class MainGui {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                //Slang.ReadFile();
+                Slang.ReadFile();
                 CreateAndShowGUI();
             }
         });
@@ -87,7 +87,8 @@ public class MainGui {
         @Override
         public void actionPerformed(ActionEvent e) {
             if("find_edit".equals(e.getActionCommand())){
-
+                FindEditGUI f = new FindEditGUI();
+                mainFrame.setVisible(false);
             }
             if("history".equals(e.getActionCommand())){
 

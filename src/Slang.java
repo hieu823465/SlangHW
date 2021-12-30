@@ -35,8 +35,8 @@ public class Slang {
         StringBuilder tmp = new StringBuilder();
         for (Map.Entry<String, String> entry: slangword.entrySet())
             if (entry.getKey().contains(slang)) {
-                tmp.append(entry.getKey()).append(" ").append(entry.getValue()).append("\n");
-                history.add(entry.getKey() + " " + entry.getValue());
+                tmp.append(entry.getKey()).append("\t").append(entry.getValue()).append("\t");
+                history.add(entry.getKey() + "\t" + entry.getValue() + "\t");
             }
         return tmp.toString();
     }
@@ -46,8 +46,8 @@ public class Slang {
         StringBuilder tmp = new StringBuilder();
         for (Map.Entry<String, String> entry: slangword.entrySet())
             if (entry.getValue().toLowerCase(Locale.ROOT).contains(value)) {
-                tmp.append(entry.getKey()).append(" ").append(entry.getValue()).append("\n");
-                history.add(entry.getKey() + " " + entry.getValue());
+                tmp.append(entry.getKey()).append(" ").append(entry.getValue());
+                history.add(entry.getKey() + "\t" + entry.getValue() + "\t");
             }
         return tmp.toString();
     }
