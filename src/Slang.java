@@ -14,7 +14,7 @@ public class Slang {
     // tính năng 3
     public static ArrayList<String> history = new ArrayList<>();
 
-    public static void ReadFile(){
+    public static boolean ReadFile(){
         try {
             FileReader fr = new FileReader("slang.txt");
             BufferedReader br = new BufferedReader(fr);
@@ -28,7 +28,9 @@ public class Slang {
             }
         }catch (IOException f){
             System.out.println("wrong here!!!");
+            return false;
         }
+        return true;
     }
 
     // tính năng 1
@@ -69,7 +71,6 @@ public class Slang {
                     null,
                     options,
                     options[0]);
-
             if(result == JOptionPane.YES_OPTION){
                 //overwrite
                 slangword.put(slang, value);
@@ -91,11 +92,8 @@ public class Slang {
             System.out.println("No slang");
             slangword.put(slang, value);
         }
-
         frame.dispose();
         MainGui.mainFrame.setVisible(true);
-
-
     }
 
     // tính năng 5
@@ -123,12 +121,12 @@ public class Slang {
     }
 
     // tính năng 7
-    public static void ResetSlang() {
-        ReadFile();
+    public static boolean ResetSlang() {
+        return ReadFile();
     }
 
     // tính năng 8
-    public static void RandomSlang() {
+    public static String[] RandomSlang() {
         List<String> keyList = new ArrayList<>(slangword.keySet());
 
         int random = new Random().nextInt(keyList.size());
@@ -137,6 +135,8 @@ public class Slang {
         String random_value = slangword.get(random_key);
 
         System.out.println("key: " + random_key + ", value: " + random_value);
+        String[] word = {random_key,random_value};
+        return word;
 
     }
 

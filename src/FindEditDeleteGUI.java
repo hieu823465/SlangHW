@@ -4,6 +4,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Map;
 import java.util.Objects;
 
@@ -13,9 +15,9 @@ import java.util.Objects;
  * Date 24/12/2021 - 12:12
  * Description: ...
  */
-public class FindEditGUI {
+public class FindEditDeleteGUI {
     public static JFrame frame;
-    public FindEditGUI() {
+    public FindEditDeleteGUI() {
         JFrame.setDefaultLookAndFeelDecorated(true);
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -30,6 +32,7 @@ public class FindEditGUI {
         public static JTextField input = new JTextField(20);
 
         JButton find = new JButton("Find");
+        JButton delete = new JButton("Delete");
         JButton edit = new JButton("Edit");
         JButton back = new JButton("Back");
 
@@ -37,6 +40,30 @@ public class FindEditGUI {
         public static DefaultTableModel model = new DefaultTableModel();
 
         public void addListener() {
+            delete.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String check = Slang.slangword.get(input.getText());
+                    if(Objects.equals(check,"")){
+                        JOptionPane.showMessageDialog(
+                                frame,
+                                "Word not found",
+                                "Warning",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    else {
+                        int result = JOptionPane.showConfirmDialog(frame,
+                                "Do you want to delete!!!",
+                                "Confirmation",
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.QUESTION_MESSAGE);
+                        if(result == JOptionPane.YES_OPTION){
+                            Slang.DeleteSlang(input.getText());
+                            System.out.println("deleted");
+                        }
+                    }
+                }
+            });
             find.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -71,12 +98,19 @@ public class FindEditGUI {
         public GUI() {
             addListener();
             setLayout(new GridBagLayout());
+            table.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    super.mouseClicked(e);
+                    System.out.println(table.getSelectedRow());
+                }
+            });
 
             JPanel tableFunc = new JPanel(new GridBagLayout());
             GridBagConstraints g = new GridBagConstraints();
 
             JPanel title = new JPanel();
-            JLabel label = new JLabel("Find And Edit Functionality!");
+            JLabel label = new JLabel("Find,Edit and Delete Functionality!");
             title.add(label);
 
             JPanel func = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -84,6 +118,7 @@ public class FindEditGUI {
             func.add(input);
             func.add(find);
             func.add(edit);
+            func.add(delete);
 
             g.gridx = 0;
             g.gridy = 0;

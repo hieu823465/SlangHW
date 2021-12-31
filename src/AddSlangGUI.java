@@ -62,10 +62,6 @@ public class AddSlangGUI {
                     Slang.AddSlang(frame,slang.getText(),defi.getText());
                 }
             });
-
-
-
-
         }
     }
 }

@@ -43,10 +43,9 @@ public class MainGui {
     }
     public static class BtnPane extends JPanel implements ActionListener {
         // button
-        JButton Find_Edit = new JButton("Find and Edit");
+        JButton Find_Edit = new JButton("Find,Edit and Delete");
         JButton History = new JButton("History");
         JButton Add = new JButton("Add Slang");
-        JButton Delete = new JButton("Delete Slang");
         JButton Reset = new JButton("Reset original");
         JButton Random = new JButton("Random");
         JButton Quiz = new JButton("Quiz");
@@ -58,8 +57,6 @@ public class MainGui {
             History.setActionCommand("history");
             Add.addActionListener(this);
             Add.setActionCommand("add");
-            Delete.addActionListener(this);
-            Delete.setActionCommand("delete");
             Reset.addActionListener(this);
             Reset.setActionCommand("reset");
             Random.addActionListener(this);
@@ -77,7 +74,6 @@ public class MainGui {
             add(Find_Edit);
             add(History);
             add(Add);
-            add(Delete);
             add(Reset);
             add(Random);
             add(Quiz);
@@ -87,7 +83,7 @@ public class MainGui {
         @Override
         public void actionPerformed(ActionEvent e) {
             if("find_edit".equals(e.getActionCommand())){
-                FindEditGUI findedit = new FindEditGUI();
+                FindEditDeleteGUI findedit = new FindEditDeleteGUI();
                 mainFrame.setVisible(false);
             }
             if("history".equals(e.getActionCommand())){
@@ -98,14 +94,25 @@ public class MainGui {
                 AddSlangGUI add = new AddSlangGUI();
                 mainFrame.setVisible(false);
             }
-            if("delete".equals(e.getActionCommand())){
-
-            }
             if("reset".equals(e.getActionCommand())){
-
+                if(Slang.ResetSlang()){
+                    JOptionPane.showMessageDialog(
+                            mainFrame,
+                            "Restore original list successfully",
+                            "Notify",
+                            JOptionPane.INFORMATION_MESSAGE);
+                }
+                else {
+                    JOptionPane.showMessageDialog(
+                            mainFrame,
+                            "Restore original list FAILED!!!",
+                            "Notify",
+                            JOptionPane.ERROR_MESSAGE);
+                }
             }
             if("random".equals(e.getActionCommand())){
-
+                RandomGUI random = new RandomGUI();
+                mainFrame.setVisible(false);
             }
             if("quiz".equals(e.getActionCommand())){
 
