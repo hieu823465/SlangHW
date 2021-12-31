@@ -24,32 +24,36 @@ public class FindEditDeleteGUI {
         GUI gui = new GUI();
         frame.add(gui);
         frame.pack();
-        frame.setVisible(true);
     }
 
     public static class GUI extends JPanel {
         // component
+        public static JLabel time = new JLabel("TIME SPENT: 0ms");
         public static JTextField input = new JTextField(20);
 
-        JButton find = new JButton("Find");
-        JButton delete = new JButton("Delete");
-        JButton edit = new JButton("Edit");
-        JButton back = new JButton("Back");
+        public static final JButton find = new JButton("Find");
+        public static final JButton delete = new JButton("Delete");
+        public static final JButton edit = new JButton("Edit");
+        public static final JButton back = new JButton("Back");
 
         public static JTable table = new JTable();
         public static DefaultTableModel model = new DefaultTableModel();
+
+
+        find f = new find();
+        edit e = new edit();
 
         public void addListener() {
             delete.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     String check = Slang.slangword.get(input.getText());
-                    if(Objects.equals(check,"")){
+                    if(Objects.equals(check,null)){
                         JOptionPane.showMessageDialog(
                                 frame,
                                 "Word not found",
                                 "Warning",
-                                JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.ERROR_MESSAGE);
                     }
                     else {
                         int result = JOptionPane.showConfirmDialog(frame,
@@ -59,7 +63,11 @@ public class FindEditDeleteGUI {
                                 JOptionPane.QUESTION_MESSAGE);
                         if(result == JOptionPane.YES_OPTION){
                             Slang.DeleteSlang(input.getText());
-                            System.out.println("deleted");
+                            JOptionPane.showMessageDialog(
+                                    frame,
+                                    "Deleted",
+                                    "Notify",
+                                    JOptionPane.INFORMATION_MESSAGE);
                         }
                     }
                 }
@@ -67,29 +75,31 @@ public class FindEditDeleteGUI {
             find.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    find f = new find();
+                   f.setVisible(true);
                 }
             });
             edit.addActionListener(new ActionListener() {
                 @Override
-                public void actionPerformed(ActionEvent e) {
+                public void actionPerformed(ActionEvent ee) {
                     String check = Slang.slangword.get(input.getText());
-                    if(Objects.equals(check,"")){
+                    if(Objects.equals(check,null)){
                         JOptionPane.showMessageDialog(
                                 frame,
                                 "Word not found",
                                 "Warning",
-                                JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.ERROR_MESSAGE);
                     }
                     else {
-                        edit edit = new edit(input.getText());
+                        e.slang.setText(input.getText());
+                        e.defi.setText(Slang.slangword.get(input.getText()));
+                        e.setVisible(true);
                     }
                 }
             });
             back.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    frame.dispose();
+                    frame.setVisible(false);
                     MainGui.mainFrame.setVisible(true);
                 }
             });
@@ -97,21 +107,18 @@ public class FindEditDeleteGUI {
         }
         public GUI() {
             addListener();
+            f.setVisible(false);
+            e.setVisible(false);
             setLayout(new GridBagLayout());
-            table.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    super.mouseClicked(e);
-                    System.out.println(table.getSelectedRow());
-                }
-            });
 
             JPanel tableFunc = new JPanel(new GridBagLayout());
             GridBagConstraints g = new GridBagConstraints();
 
             JPanel title = new JPanel();
+            title.setLayout(new BoxLayout(title,BoxLayout.Y_AXIS));
             JLabel label = new JLabel("Find,Edit and Delete Functionality!");
             title.add(label);
+            title.add(time);
 
             JPanel func = new JPanel(new FlowLayout(FlowLayout.LEFT));
             func.add(new JLabel("Input:"));
@@ -172,11 +179,14 @@ public class FindEditDeleteGUI {
             slang.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    long startTime = System.currentTimeMillis();
                     String list = Slang.SearchDefinition(GUI.input.getText());
+                    long estimatedTime = System.currentTimeMillis() - startTime;
+                    GUI.time.setText("TIME SPENT: " + estimatedTime + "ms");
+
                     String[] split = list.split("\t");
                     GUI.model.setRowCount(0);
                     for(int i = 0 ; i < split.length - 1 ; i+=2){
-                        System.out.println(split[i] +  split[i+1] );
                         int finalI = i;
                         SwingUtilities.invokeLater(new Runnable() {
                             @Override
@@ -185,17 +195,20 @@ public class FindEditDeleteGUI {
                             }
                         });
                     }
-                    dispose();
+                    setVisible(false);
                 }
             });
             definition.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    long startTime = System.currentTimeMillis();
                     String list = Slang.SearchSlang(GUI.input.getText());
+                    long estimatedTime = System.currentTimeMillis() - startTime;
+                    GUI.time.setText("TIME SPENT: " + estimatedTime + "ms");
+
                     String[] split = list.split("\t");
                     GUI.model.setRowCount(0);
                     for(int i = 0 ; i < split.length - 1 ; i+=2){
-                        System.out.println(split[i] +  split[i+1] );
                         int finalI = i;
                         SwingUtilities.invokeLater(new Runnable() {
                             @Override
@@ -204,14 +217,14 @@ public class FindEditDeleteGUI {
                             }
                         });
                     }
-                    dispose();
+                    setVisible(false);
                 }
             });
         }
     }
 
     public static class edit extends JDialog {
-        String word;
+
 
         JTextField slang = new JTextField(10);
         JTextField defi = new JTextField(10);
@@ -223,23 +236,26 @@ public class FindEditDeleteGUI {
             back.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    dispose();
+                    setVisible(false);
                 }
             });
             edit.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     Slang.EditSlang(slang.getText(),defi.getText());
-                    dispose();
+                    JOptionPane.showMessageDialog(
+                            frame,
+                            "Editted",
+                            "Notify",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
+                    setVisible(false);
                 }
             });
         }
-        public edit(String s) {
+        public edit() {
             super(frame,"Edit");
 
-            word = s;
-            slang.setText(word);
-            defi.setText(Slang.slangword.get(word));
             addListener();
 
             setPreferredSize(new Dimension(300,120));

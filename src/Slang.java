@@ -61,7 +61,7 @@ public class Slang {
         check = slangword.get(slang);
         // thông báo bị trùng key, overwrite hay duplicate hay khỏi làm
 
-        if(!Objects.equals(check, "")){ // có slang trùng
+        if(!Objects.equals(check, null)){ // có slang trùng
             Object[] options = {"Overwrite", "Duplicate", "Cancel"};
             int result = JOptionPane.showOptionDialog(frame,
                     "Slang existed. Please choose option!!!",
@@ -100,7 +100,7 @@ public class Slang {
     public static void EditSlang(String slang, String value) {
         String check = "";
         check = slangword.get(slang);
-        if(!Objects.equals(check,"")) {
+        if(!Objects.equals(check,null)) {
             slangword.put(slang,value);
         }
         else {
@@ -112,7 +112,7 @@ public class Slang {
     public static void DeleteSlang(String slang){
         String check = "";
         check = slangword.get(slang);
-        if(!Objects.equals(check,"")) {
+        if(!Objects.equals(check,null)) {
             slangword.remove(slang);
         }
         else {
@@ -134,14 +134,13 @@ public class Slang {
         String random_key = keyList.get(random);
         String random_value = slangword.get(random_key);
 
-        System.out.println("key: " + random_key + ", value: " + random_value);
         String[] word = {random_key,random_value};
         return word;
 
     }
 
     // tính năng 9
-    public static void Quiz_slang() {
+    public static String Quiz_slang() {
         List<String> keyList = new ArrayList<>(slangword.keySet());
 
         int random = new Random().nextInt(keyList.size());
@@ -161,45 +160,13 @@ public class Slang {
         random = new Random().nextInt(keyList.size());
         String option3 = slangword.get(keyList.get(random));
 
-        random = new Random().nextInt(4);
-        switch (random){
-            case 0 -> {
-                // answer a
-                System.out.println(option1);
-                System.out.println(random_value);
-                System.out.println(option2);
-                System.out.println(option3);
-                break;
-            }
-            case 1 -> {
-                // answer b
-                System.out.println(option1);
-                System.out.println(random_value);
-                System.out.println(option2);
-                System.out.println(option3);
-                break;
-            }
-            case 2 -> {
-                // answer c
-                System.out.println(option1);
-                System.out.println(option2);
-                System.out.println(random_value);
-                System.out.println(option3);
-                break;
-            }
-            case 3 -> {
-                // answer d
-                System.out.println(option1);
-                System.out.println(option2);
-                System.out.println(option3);
-                System.out.println(random_value);
-                break;
-            }
-        }
+        // câu hỏi -> đáp án -> 3 đáp án khác
+        String tmp = random_key + "\t" + random_value + "\t" + option1 + "\t" + option2 + "\t" + option3;;
+        return tmp;
     }
 
     // tính năng 10
-    public static void Quiz_Defi() {
+    public static String Quiz_Defi() {
         List<String> keyList = new ArrayList<>(slangword.keySet());
 
         int random = new Random().nextInt(keyList.size());
@@ -219,42 +186,13 @@ public class Slang {
         random = new Random().nextInt(keyList.size());
         String option3 = keyList.get(random);
 
-        random = new Random().nextInt(4);
-        switch (random){
-            case 0 -> {
-                // answer a
-                System.out.println(option1);
-                System.out.println(random_key);
-                System.out.println(option2);
-                System.out.println(option3);
-                break;
-            }
-            case 1 -> {
-                // answer b
-                System.out.println(option1);
-                System.out.println(random_key);
-                System.out.println(option2);
-                System.out.println(option3);
-                break;
-            }
-            case 2 -> {
-                // answer c
-                System.out.println(option1);
-                System.out.println(option2);
-                System.out.println(random_key);
-                System.out.println(option3);
-                break;
-            }
-            case 3 -> {
-                // answer d
-                System.out.println(option1);
-                System.out.println(option2);
-                System.out.println(option3);
-                System.out.println(random_key);
-                break;
-            }
-        }
+        // câu hỏi -> đáp án -> 3 đáp án khác
+        String tmp = random_value + "\t" + random_key + "\t" + option1 + "\t" + option2 + "\t" + option3;
+        return tmp;
     }
 
-
+//    public static void main(String[] argv) {
+//        ReadFile();
+//        System.out.println(slangword.get(":)))"));
+//    }
 }

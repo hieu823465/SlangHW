@@ -53,31 +53,37 @@ public class RandomGUI {
         public GUI() {
             addListener();
             setLayout(new BorderLayout());
+            setPreferredSize(new Dimension(400,250));
 
-
+            JPanel top = new JPanel(new GridBagLayout());
+            GridBagConstraints g = new GridBagConstraints();
             JLabel title = new JLabel("WORD OF THE DAY!!!");
-            add(title,BorderLayout.PAGE_START);
+            top.add(title,g);
 
             JPanel quiz = new JPanel();
-            quiz.setLayout(new BoxLayout(quiz,BoxLayout.Y_AXIS));
+            quiz.setLayout(new GridBagLayout());
 
-            JPanel quiz_key = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            quiz_key.add(new JLabel("SLANG: "));
-            quiz_key.add(key);
+            g.gridx = 0;
+            g.gridy = 0;
+            quiz.add(new JLabel("SLANG: "),g);
 
-            JPanel quiz_value = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            quiz_value.add(new JLabel("DEFI: "));
-            quiz_value.add(value);
+            g.gridx = 1;
+            quiz.add(key,g);
 
-            quiz.add(quiz_key);
-            quiz.add(quiz_value);
+            g.gridy = 1;
+            g.gridx = 0;
+            quiz.add(new JLabel("DEFI: "),g);
 
-            add(quiz,BorderLayout.CENTER);
+            g.gridx = 1;
+            quiz.add(value,g);
+
 
             JPanel btn = new JPanel(new FlowLayout(FlowLayout.LEFT));
             btn.add(back);
             btn.add(random);
 
+            add(top,BorderLayout.PAGE_START);
+            add(quiz,BorderLayout.CENTER);
             add(btn,BorderLayout.AFTER_LAST_LINE);
 
 

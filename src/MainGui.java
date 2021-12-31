@@ -15,7 +15,7 @@ public class MainGui {
     public static void CreateAndShowGUI() {
         JFrame.setDefaultLookAndFeelDecorated(true);
         mainFrame = new JFrame("Slang Word!!!");
-        mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         mainFrame.setContentPane(new FormPane());
 
@@ -78,12 +78,14 @@ public class MainGui {
             add(Random);
             add(Quiz);
 
+            FindEditDeleteGUI findedit = new FindEditDeleteGUI();
+
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
             if("find_edit".equals(e.getActionCommand())){
-                FindEditDeleteGUI findedit = new FindEditDeleteGUI();
+                FindEditDeleteGUI.frame.setVisible(true);
                 mainFrame.setVisible(false);
             }
             if("history".equals(e.getActionCommand())){
@@ -115,7 +117,34 @@ public class MainGui {
                 mainFrame.setVisible(false);
             }
             if("quiz".equals(e.getActionCommand())){
-
+                JDialog dialog = new JDialog(mainFrame,"Choose Quiz");
+                dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                dialog.setPreferredSize(new Dimension(350,70));
+                dialog.setLayout(new FlowLayout(FlowLayout.LEFT));
+                JButton slang_quiz = new JButton("Slang quiz");
+                JButton defi_quiz = new JButton("Definition quiz");
+                dialog.add(slang_quiz);
+                dialog.add(defi_quiz);
+                dialog.setVisible(true);
+                dialog.pack();
+                slang_quiz.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // 0 : quiz slang -> 1: quiz definition
+                        QuizGUI quiz = new QuizGUI(0);
+                        dialog.dispose();
+                        mainFrame.setVisible(false);
+                    }
+                });
+                defi_quiz.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // 0 : quiz slang -> 1: quiz definition
+                        QuizGUI quiz = new QuizGUI(1);
+                        dialog.dispose();
+                        mainFrame.setVisible(false);
+                    }
+                });
             }
         }
     }
