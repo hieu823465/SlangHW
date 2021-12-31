@@ -4,6 +4,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * PACKAGE_NAME
@@ -44,7 +46,17 @@ public class FindEditGUI {
             edit.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
+                    String check = Slang.slangword.get(input.getText());
+                    if(Objects.equals(check,"")){
+                        JOptionPane.showMessageDialog(
+                                frame,
+                                "Word not found",
+                                "Warning",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    else {
+                        edit edit = new edit(input.getText());
+                    }
                 }
             });
             back.addActionListener(new ActionListener() {
@@ -109,6 +121,7 @@ public class FindEditGUI {
 
         }
     }
+
     public static class find extends JDialog {
         JButton slang = new JButton("Search Definition");
         JButton definition = new JButton("Search Slang");
@@ -140,7 +153,78 @@ public class FindEditGUI {
                     dispose();
                 }
             });
+            definition.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String list = Slang.SearchSlang(GUI.input.getText());
+                    String[] split = list.split("\t");
+                    GUI.model.setRowCount(0);
+                    for(int i = 0 ; i < split.length - 1 ; i+=2){
+                        System.out.println(split[i] +  split[i+1] );
+                        int finalI = i;
+                        SwingUtilities.invokeLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                GUI.model.addRow(new Object[]{split[finalI],split[finalI +1]});
+                            }
+                        });
+                    }
+                    dispose();
+                }
+            });
         }
     }
-    //public static void main(String[] argv) {FindEditGUI f = new FindEditGUI();}
+
+    public static class edit extends JDialog {
+        String word;
+
+        JTextField slang = new JTextField(10);
+        JTextField defi = new JTextField(10);
+
+        JButton back = new JButton("back");
+        JButton edit = new JButton("Edit");
+
+        public void addListener() {
+            back.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dispose();
+                }
+            });
+            edit.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Slang.EditSlang(slang.getText(),defi.getText());
+                    dispose();
+                }
+            });
+        }
+        public edit(String s) {
+            super(frame,"Edit");
+
+            word = s;
+            slang.setText(word);
+            defi.setText(Slang.slangword.get(word));
+            addListener();
+
+            setPreferredSize(new Dimension(300,120));
+            pack();
+            setVisible(true);
+            setLayout(new BorderLayout());
+
+            JPanel main = new JPanel(new GridLayout(2,2,2,2));
+            main.add(new JLabel("Slang"));
+            main.add(new JLabel("Definition"));
+            main.add(slang);
+            main.add(defi);
+
+            JPanel btn = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            btn.add(back);
+            btn.add(edit);
+
+            add(main,BorderLayout.CENTER);
+            add(btn,BorderLayout.AFTER_LAST_LINE);
+
+        }
+    }
 }

@@ -87,11 +87,12 @@ public class MainGui {
         @Override
         public void actionPerformed(ActionEvent e) {
             if("find_edit".equals(e.getActionCommand())){
-                FindEditGUI f = new FindEditGUI();
+                FindEditGUI findedit = new FindEditGUI();
                 mainFrame.setVisible(false);
             }
             if("history".equals(e.getActionCommand())){
-
+                HistoryGUI history = new HistoryGUI();
+                mainFrame.setVisible(false);
             }
             if("add".equals(e.getActionCommand())){
 
