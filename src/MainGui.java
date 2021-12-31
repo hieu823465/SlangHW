@@ -95,7 +95,8 @@ public class MainGui {
                 mainFrame.setVisible(false);
             }
             if("add".equals(e.getActionCommand())){
-
+                AddSlangGUI add = new AddSlangGUI();
+                mainFrame.setVisible(false);
             }
             if("delete".equals(e.getActionCommand())){
 

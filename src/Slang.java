@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.image.Kernel;
 import java.io.*;
 import java.util.*;
@@ -53,23 +54,46 @@ public class Slang {
     }
 
     // tính năng 4
-    public static void AddSlang(String slang, String value){
+    public static void AddSlang(JFrame frame,String slang, String value){
         String check = "";
         check = slangword.get(slang);
         // thông báo bị trùng key, overwrite hay duplicate hay khỏi làm
 
         if(!Objects.equals(check, "")){ // có slang trùng
-            // overwrite
-            //slangword.put(slang, value);
+            Object[] options = {"Overwrite", "Duplicate", "Cancel"};
+            int result = JOptionPane.showOptionDialog(frame,
+                    "Slang existed. Please choose option!!!",
+                    "Xác nhận",
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
 
-            // duplicate
-            String old = slangword.get(slang);
-            slangword.put(slang,old + " | " + value);
+            if(result == JOptionPane.YES_OPTION){
+                //overwrite
+                slangword.put(slang, value);
+            }else if (result == JOptionPane.NO_OPTION){
+                // duplicate
+                String old = slangword.get(slang);
+                slangword.put(slang,old + " | " + value);
+            } else if (result == JOptionPane.CANCEL_OPTION) {
+
+            }
         }
         else { // không có slang trùng
+            JOptionPane.showMessageDialog(
+                    frame,
+                    "Added successfully",
+                    "Notify",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
             System.out.println("No slang");
             slangword.put(slang, value);
         }
+
+        frame.dispose();
+        MainGui.mainFrame.setVisible(true);
 
 
     }
